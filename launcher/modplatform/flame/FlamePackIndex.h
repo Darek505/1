@@ -20,6 +20,7 @@ struct IndexedVersion {
     ModPlatform::IndexedVersionType version_type;
     QString mcVersion;
     QString downloadUrl;
+    QString fileName;
 };
 
 struct ModpackExtra {
