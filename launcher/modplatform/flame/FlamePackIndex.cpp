@@ -110,9 +110,13 @@ void Flame::loadIndexedPackVersions(Flame::IndexedPack& pack, QJsonArray& arr)
         file.downloadUrl = Json::ensureString(version, "downloadUrl");
 
         // only add if we have a download URL (third party distribution is enabled)
-        if (!file.downloadUrl.isEmpty()) {
-            unsortedVersions.append(file);
+        if (file.downloadUrl.isEmpty()) {
+            file.downloadUrl = QString("https://media.forgecdn.net/files/%1/%2/%3")
+                                    .arg(QString::number(QString::number(file.fileId).left(4).toInt())
+                                        ,QString::number(QString::number(file.fileId).right(3).toInt())
+                                        ,QUrl::toPercentEncoding(file.fileName));
         }
+        unsortedVersions.append(file);
     }
 
     auto orderSortPredicate = [](const IndexedVersion& a, const IndexedVersion& b) -> bool { return a.fileId > b.fileId; };
